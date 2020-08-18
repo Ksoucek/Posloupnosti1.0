@@ -1,0 +1,176 @@
+using System;
+using System.Runtime.CompilerServices;
+
+namespace Posloupnosti
+{
+    class Program
+    {
+
+        static Random nahodne = new Random();
+
+
+
+
+        static void Main(string[] args)
+        {
+
+
+            Console.WriteLine("Toto je jednoduchá aplikace pro výpis informací o posloupnosti n prvků.");
+            Console.WriteLine("Zadejte prosím počet prvků - n.");
+
+
+            //načísto hodnotu počtu prvku n a přiřadiit hodnotu velikosti posloupnosti
+            int n = Convert.ToInt32(Console.ReadLine());
+            int[] a = new int [n];
+            
+            Console.WriteLine("Hodnoty prvků posloupnosti lze zasadat ručně a nebo je muže vygenerovat program");
+            Console.WriteLine("Zvolte prosím typ zadání hodnot (napište  1 pro ruční zadání  nebo napište 2 pro generovaní náhodných čísel)");
+
+            //Načtení volby uživatele + tvorba cyklu pro uspěšné dokončení
+            int typ_zadani = Convert.ToInt32(Console.ReadLine());
+
+            while (typ_zadani != 1 && typ_zadani != 2) 
+            {
+                ///špatné zadání
+                Console.WriteLine("Zadaná hodnota  je nečitelná. Prosím napište čislovku 1 pro ruční zadání  nebo  číslovku  2 pro generovaní náhodných čísel");
+                typ_zadani = Convert.ToInt32(Console.ReadLine());
+
+            }
+            if (typ_zadani == 1)
+            {
+                //načíst čísla od uživatele
+            Console.WriteLine("Napište posloupnost  o {0} prvcích. Jednotlivá číslo potvrďte klávesou ENTER",n);
+                for (int i = 0; i < a.Length; i++)
+                    a[i] = Convert.ToInt32(Console.ReadLine());
+            }
+            else if (typ_zadani == 2)
+            {
+                //Dána random čísla
+                Console.WriteLine("Zvolte nejmenší možné generované číslo");
+                int minod = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Zvolte největší možné generované číslo");
+                int maxdo = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Dáno 10 random prvků od {0} - {1}!", minod,maxdo );
+                
+                for (int i = 0; i < a.Length; i++)
+                a[i] = nahodne.Next(minod, maxdo+1);
+            }
+
+            
+            VypisPosloupnost(a);
+
+            // součet posloupnosti
+            int soucet = 0;
+            for (int i = 0; i < a.Length; i++)
+                soucet = soucet + a[i];
+
+            // počet sudých členů
+            int pocets = 0;
+            for (int i = 0; i < a.Length; i++)
+                if (a[i] % 2 == 0 && a[i] != 0)
+                    pocets++; //navýšení počtu
+
+            // počet lichých členů
+            int pocetl = 0;
+            for (int i = 0; i < a.Length; i++)
+                if (a[i] % 2 == 1 && a[i] != 0)
+                    pocetl++;
+
+            //Nalezení minimální hodnoty
+            int min = a[0];
+            for (int i = 1; i < a.Length; i++)
+                if (a[i] < min)
+                    min = a[i];
+
+            //Počet minimálních hodnot
+            int pocetmin = 0;
+            for (int i = 0; i < a.Length; i++)
+                if (a[i] == min)
+                    pocetmin++;
+
+            //Nalezení maximální hodnoty
+            int max = a[0];
+            for (int i = 1; i < a.Length; i++)
+                if (a[i] > max)
+                    max = a[i];
+
+            //Počet maximálních hodnot
+            int pocetmax = 0;
+            for (int i = 0; i < a.Length; i++)
+                if (a[i] == max)
+                    pocetmax++;
+
+            //Index prvního minima
+            int Pozicemin = 0;
+            for (int i = 1; i < a.Length; i++)
+                if (a[i] < a[Pozicemin])
+                    Pozicemin = i;
+
+            //Index prvního maxima
+            int Pozicemax = 0;
+            for (int i = 1; i < a.Length; i++)
+                if (a[i] > a[Pozicemax])
+                    Pozicemax = i;
+
+            //Index Posledního minima
+            int pPozicemin = 0;
+            for (int i = 1; i < a.Length; i++)
+                if (a[i] <= a[pPozicemin])
+                    pPozicemin = i;
+
+            //Index Posledního max
+            int pPozicemax = 0;
+            for (int i = 1; i < a.Length; i++)
+                if (a[i] >= a[pPozicemax])
+                    pPozicemax = i;
+
+            //zadej index člena pro odebrání z posloupnosti
+            //Console.WriteLine("zadej index člena pro odebrání z posloupnosti");
+            //int k = Convert.ToInt32(Console.ReadLine());
+            //VypisPosloupnost(a);
+            //for (int i = k; i < a.Length - 1; i++)
+            //    a[i] = a[i + 1] ;
+            //Console.WriteLine();
+
+            //Array.Resize(ref a, a.Length-1 );  
+            //    VypisPosloupnost(a);
+
+            ////zadej index člena pro přidání k posloupnosti
+            //Console.WriteLine("zadej index člena pro přidání k posloupnosti");
+            //int k = Convert.ToInt32(Console.ReadLine());
+            //Console.WriteLine("zadej Hodnotu člena pro přidání k posloupnosti");
+            //int h = Convert.ToInt32(Console.ReadLine());
+            //VypisPosloupnost(a);
+            //Array.Resize(ref a, a.Length + 1);
+            //for (int i = a.Length - 1; i > k; i--)
+            //    a[i] = a[i - 1];
+            //a[k] = h;
+
+            // VypisPosloupnost(a);
+
+
+            Console.WriteLine("Součet je : {0}.", soucet);
+            Console.WriteLine("Průměr je : {0}.", soucet / (double)a.Length);
+            Console.WriteLine("Počet sudých členů je : {0}.", pocets);
+            Console.WriteLine("Počet lichých členů je : {0}.", pocetl);
+            Console.WriteLine("Minimum je číslo : {0} a Pozice prvního minima  : {1} a Pozice posledního minima  : {2}", min, Pozicemin, pPozicemin);
+            Console.WriteLine("Počet minim : {0}.", pocetmin);
+            Console.WriteLine("Maximum je číslo : {0} a Pozice prvního maxima  : {1} a Pozice poseldního maxima  : {2}.", max, Pozicemax, pPozicemax);
+            Console.WriteLine("Počet maxim : {0}.", pocetmax);
+
+
+
+
+            Console.ReadLine();
+        }
+
+        static void VypisPosloupnost(int[] a)
+        {
+            //Výpis posloupnosti - pod sebe
+            for (int i = 0; i < a.Length; i++)
+                Console.WriteLine("  {0}.={1};", i, a[i]);
+        }
+
+
+    }
+}
